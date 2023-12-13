@@ -1,12 +1,16 @@
 #include "monty.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <stddef.h>
 
 /**
  * push - Pushes an element to the stack.
  * @stack: Double pointer to the beginning of the stack.
  * @line_number: Line number in the file where the opcode appears.
  */
+
 void push(stack_t **stack, unsigned int line_number)
 {
     char *arg;
@@ -21,7 +25,8 @@ void push(stack_t **stack, unsigned int line_number)
 
     value = atoi(arg);
 
-    stack_t *new_node = malloc(sizeof(stack_t));
+    stack_t *new_node;
+    new_node = (stack_t *)malloc(sizeof(stack_t));
     if (new_node == NULL)
     {
         fprintf(stderr, "Error: malloc failed\n");
@@ -68,7 +73,7 @@ int is_int(const char *str)
 
     while (*str)
     {
-        if (!isdigit(*str))
+        if (!isdigit((unsigned char)*str))
             return 0;
         str++;
     }
