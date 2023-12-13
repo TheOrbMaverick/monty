@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 2)
     {
-        fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
+        fprintf(stderr, "USAGE: monty file\n");
         return EXIT_FAILURE;
     }
 
@@ -104,6 +104,6 @@ void execute_opcode(const char *opcode, stack_t **stack, unsigned int line_numbe
         i++;
     }
 
-    fprintf(stderr, "L%u: Unknown instruction %s\n", line_number, opcode);
+    fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
     exit(EXIT_FAILURE);
 }
