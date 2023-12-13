@@ -15,6 +15,7 @@ void push(stack_t **stack, unsigned int line_number)
 {
     char *arg;
     int value;
+    stack_t *new_node = NULL;
 
     arg = strtok(NULL, " \n");
     if (arg == NULL || !is_int(arg))
@@ -25,7 +26,6 @@ void push(stack_t **stack, unsigned int line_number)
 
     value = atoi(arg);
 
-    stack_t *new_node;
     new_node = (stack_t *)malloc(sizeof(stack_t));
     if (new_node == NULL)
     {
@@ -50,9 +50,10 @@ void push(stack_t **stack, unsigned int line_number)
  */
 void pall(stack_t **stack, unsigned int line_number)
 {
-    (void)line_number; // Unused parameter
+    stack_t *current = NULL;
+    (void)line_number; /* Unused parameter */
 
-    stack_t *current = *stack;
+    current = *stack;
 
     while (current != NULL)
     {
