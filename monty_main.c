@@ -8,8 +8,6 @@
 void process_file(const char *filename);
 void execute_opcode(const char *opcode, stack_t **stack, unsigned int line_number);
 
-int global_arg;
-
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -88,7 +86,7 @@ void execute_opcode(const char *opcode, stack_t **stack, unsigned int line_numbe
     {
         if (strcmp(opcode, instructions[i].opcode) == 0)
         {
-            /* If push, get the argument and set the global variable */
+            /* If push, get the argument and pass it to the push function */
             if (strcmp(opcode, "push") == 0)
             {
                 char *arg = strtok(NULL, " \t\n$");
@@ -98,15 +96,10 @@ void execute_opcode(const char *opcode, stack_t **stack, unsigned int line_numbe
                     exit(EXIT_FAILURE);
                 }
 
-                /* Set the global variable for the push function */
-                global_arg = atoi(arg);
-
-                /* Call the push function without modifying the signature */
                 instructions[i].f(stack, line_number);
             }
             else
             {
-                /* Call other functions without modifying the signature */
                 instructions[i].f(stack, line_number);
             }
 
