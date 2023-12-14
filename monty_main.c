@@ -8,6 +8,8 @@
 void process_file(const char *filename);
 void execute_opcode(const char *opcode, stack_t **stack, unsigned int line_number);
 
+int global_arg;
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -74,16 +76,19 @@ void execute_opcode(const char *opcode, stack_t **stack, unsigned int line_numbe
     instruction_t instructions[] = {
         {"push", push},
         {"pall", pall},
-	{"pint", pint},
-        /* Add other opcode-function pairs as needed */
-        {NULL, NULL} /* Terminator for the array */
+	{"pop", pop},
+    	{"swap", swap},
+    	{"add", add},
+    	{"nop", nop}, /* Add the nop opcode */
+    	/* Add other opcode-function pairs as needed */
+    	{NULL, NULL} /* Terminator for the array */
     };
 
     while (instructions[i].opcode != NULL)
     {
         if (strcmp(opcode, instructions[i].opcode) == 0)
         {
-            /* If push, get the argument and pass it to the push function */
+            /* If push, get the argument and set the global variable */
             if (strcmp(opcode, "push") == 0)
             {
                 char *arg = strtok(NULL, " \t\n$");
@@ -93,10 +98,15 @@ void execute_opcode(const char *opcode, stack_t **stack, unsigned int line_numbe
                     exit(EXIT_FAILURE);
                 }
 
+                /* Set the global variable for the push function */
+                global_arg = atoi(arg);
+
+                /* Call the push function without modifying the signature */
                 instructions[i].f(stack, line_number);
             }
             else
             {
+                /* Call other functions without modifying the signature */
                 instructions[i].f(stack, line_number);
             }
 

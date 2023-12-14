@@ -8,7 +8,7 @@
 /**
  * push - Pushes an element to the stack.
  * @stack: Double pointer to the beginning of the stack.
- * @line_number: Line number in the file where the opcode appears.
+ * @value: The value to be pushed onto the stack.
  */
 
 void push(stack_t **stack, unsigned int line_number)

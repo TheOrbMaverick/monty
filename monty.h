@@ -1,5 +1,5 @@
 #ifndef MONTY_H
-#define MONTHY_H
+#define MONTY_H
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -36,5 +36,9 @@ void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 int is_int(const char *str);
 void pint(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
+void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
 
 #endif /* MONTY_H */
