@@ -74,6 +74,7 @@ void execute_opcode(const char *opcode, stack_t **stack, unsigned int line_numbe
     instruction_t instructions[] = {
         {"push", push},
         {"pall", pall},
+	{"pint", pint},
         /* Add other opcode-function pairs as needed */
         {NULL, NULL} /* Terminator for the array */
     };
