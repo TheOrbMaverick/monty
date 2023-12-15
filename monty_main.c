@@ -25,7 +25,7 @@ void process_file(const char *filename)
     char *opcode;
     char *arg;
     unsigned int global_arg;
-    int i = 0;
+    int i;
 
     stack_t *stack = NULL;
 
@@ -56,38 +56,42 @@ void process_file(const char *filename)
 
         if (opcode != NULL)
         {
-            arg = strtok(NULL, " \t\n$");
+            i = 0; /* Reset i for each line */
 
-            if (arg == NULL || !is_int(arg))
+            if (strcmp(opcode, "push") == 0)
             {
-                fprintf(stderr, "L%u: usage: push integer\n", line_number);
-                exit(EXIT_FAILURE);
-            }
+                arg = strtok(NULL, " \t\n$");
 
-            global_arg = atoi(arg);
-
-            while (instructions[i].opcode != NULL && strcmp(opcode, instructions[i].opcode) != 0)
-            {
-                i++;
-            }
-
-            if (instructions[i].opcode != NULL)
-            {
-                if (strcmp(instructions[i].opcode, "push") == 0)
+                if (arg == NULL)
                 {
-                    /* For "push," call the push function */
-                    instructions[i].f(&stack, global_arg);
+                    fprintf(stderr, "L%u: usage: push integer\n", line_number);
+                    exit(EXIT_FAILURE);
                 }
-                else
-                {
-                    /* For other instructions, call the corresponding function */
-                    instructions[i].f(&stack, line_number);
-                }
+
+                global_arg = atoi(arg);
+
+                /* For "push," call the push function */
+                instructions[i].f(&stack, global_arg);
             }
             else
             {
-                fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
-                exit(EXIT_FAILURE);
+                while (instructions[i].opcode != NULL)
+                {
+                    if (strcmp(instructions[i].opcode, opcode) == 0)
+                    {
+                        /* For other instructions that are not push, call the corresponding function */
+                        instructions[i].f(&stack, line_number);
+                        break; /* Break out of the loop after finding a match */
+                    }
+
+                    i++;
+                }
+
+                if (instructions[i].opcode == NULL)
+                {
+                    fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
+                    exit(EXIT_FAILURE);
+                }
             }
         }
     }
